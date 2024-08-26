@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { auth } from "./firebase";
-import Profile from "./components/Profile";
 import Home from "./components/Home";
-import AddPost from "./components/AddPost";
+import Notes from "./components/Notes";
+import Folders from "./components/Folders";
+import FolderNotes from "./components/FolderNotes";
 import SignIn from "./components/SignIn";
 import { User as FirebaseUser } from "firebase/auth";
 import WelcomeScreen from "./components/WelcomeScreen";
@@ -21,13 +22,14 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="app flex flex-col min-h-screen">
+      <div className="app flex flex-col min-h-screen bg-purple-50">
         <main className="flex-grow">
           {user ? (
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/add-post" element={<AddPost />} />
+              <Route path="/notes" element={<Notes />} />
+              <Route path="/folders" element={<Folders />} />
+              <Route path="/folders/:folderId" element={<FolderNotes />} />
             </Routes>
           ) : (
             <Routes>

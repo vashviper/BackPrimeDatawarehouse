@@ -1,28 +1,48 @@
-import { Link, useLocation } from "react-router-dom";
-import { Home as HomeIcon, User, PlusSquare } from "lucide-react";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Home as HomeIcon, FileText, Folder, LogOut } from "lucide-react";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const BottomTabBar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
-    <nav className="bottom-nav bg-gray-800 text-white p-4 flex justify-around items-center">
+    <nav className="bottom-nav bg-purple-800 text-white p-4 flex justify-around items-center">
       <Link
         to="/"
-        className={`text-2xl ${location.pathname === "/" ? "text-blue-400" : ""}`}
+        className={`text-2xl ${location.pathname === "/" ? "text-purple-300" : ""}`}
       >
         <HomeIcon size={24} />
       </Link>
       <Link
-        to="/add-post"
-        className={`text-2xl ${location.pathname === "/add-post" ? "text-blue-400" : ""}`}
+        to="/notes"
+        className={`text-2xl ${location.pathname === "/notes" ? "text-purple-300" : ""}`}
       >
-        <PlusSquare size={24} />
+        <FileText size={24} />
       </Link>
       <Link
-        to="/profile"
-        className={`text-2xl ${location.pathname === "/profile" ? "text-blue-400" : ""}`}
+        to="/folders"
+        className={`text-2xl ${location.pathname === "/folders" ? "text-purple-300" : ""}`}
       >
-        <User size={24} />
+        <Folder size={24} />
       </Link>
+      <button
+        onClick={handleSignOut}
+        className="text-2xl text-white hover:text-purple-300"
+      >
+        <LogOut size={24} />
+      </button>
     </nav>
   );
 };
